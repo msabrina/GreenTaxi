@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import './Search.css';
+import styles from './Search.css';
 
 class Search extends Component {
   render() {
     return (
-      <div className="Search">
+      <div className={styles["Search"]}>
         <h2>Search Your Route</h2>
         <p>Starting Address</p>
         <input />

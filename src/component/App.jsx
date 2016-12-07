@@ -23,9 +23,9 @@ class App extends Component {
     }
   }
 
-  componentWillMount(){
-    getHistory();
-}
+//   componentWillMount(){
+//     getHistory();
+// }
 
   getPrediction(){
     fetch(`http://localhost:9000/api/prediction`, {
@@ -46,7 +46,7 @@ class App extends Component {
   .then(r => r.json())
   .then((response) => {
     this.setState({
-      predictResponse = response
+      predictResponse: response
     })
     next();
   })
@@ -81,7 +81,7 @@ class App extends Component {
     });
   }
 
-  updateAddress (e) {
+  updateDay (e) {
     this.setState({
       day: e.target.value
     });
@@ -92,8 +92,14 @@ class App extends Component {
       <div className={styles["App"]}>
         <Header />
         <div className={styles["side-bar"]}>
-          <Filter />
-          <Search />
+          <Filter
+            updateMonth={event => this.updateMonth(event)}
+          />
+          <Search
+            updateAddress={event => this.updateAddress(event)}
+            updateDestination={event => this.updateDestination(event)}
+            updateDay={event => this.updateDay(event)}
+          />
         </div>
         <div className={styles["graph-container"]}>
         </div>
