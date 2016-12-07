@@ -1,0 +1,23 @@
+.App {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+}
+
+.side-bar {
+  height: 80vh;
+  width: 30vw;
+  position: absolute;
+  top: 17vh;
+  left: 1vw;
+  background-color: lightblue;
+}
+
+.graph-container {
+  height: 80vh;
+  width: 67.5vw;
+  position: absolute;
+  top: 17vh;
+  left: 32vw;
+  background-color: lightblue;
+}

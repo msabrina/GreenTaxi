@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
+import styles from './App.css';
+import Header from './Header/Header.jsx';
+import Filter from './Filter/Filter.jsx';
+// import Graph from './Graph/Graph.jsx';
+import Search from './Search/Search.jsx';
 
 class App extends Component {
   constructor(props){
@@ -19,9 +23,9 @@ class App extends Component {
     }
   }
 
-  componentWillMount(){
-    getHistory();
-}
+//   componentWillMount(){
+//     getHistory();
+// }
 
   getPrediction(){
     fetch(`http://localhost:9000/api/prediction`, {
@@ -42,7 +46,7 @@ class App extends Component {
   .then(r => r.json())
   .then((response) => {
     this.setState({
-      predictResponse = response
+      predictResponse: response
     })
     next();
   })
@@ -77,7 +81,7 @@ class App extends Component {
     });
   }
 
-  updateAddress (e) {
+  updateDay (e) {
     this.setState({
       day: e.target.value
     });
@@ -85,12 +89,23 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className={styles["App"]}>
         <Header />
-        <Filter />
-        <Graph />
-        <Search />
+        <div className={styles["side-bar"]}>
+          <Filter
+            updateMonth={event => this.updateMonth(event)}
+          />
+          <Search
+            updateAddress={event => this.updateAddress(event)}
+            updateDestination={event => this.updateDestination(event)}
+            updateDay={event => this.updateDay(event)}
+          />
+        </div>
+        <div className={styles["graph-container"]}>
+        </div>
       </div>
     );
   }
 }
+
+export default App;
