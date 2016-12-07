@@ -24,22 +24,23 @@ class App extends Component {
       chartTitle: '',
       xAxisLabel: 'Hour',
       yAxisLabel: 'Price',
+      temperature: null,
+      rainfall: ''
     }
   }
 
-
-
   componentWillMount(){
     // this.getHistory();
-}
+  }
 
-getHistory () {
+  getHistory () {
     fetch(`http://localhost:4000/history`)
     .then(r => r.json())
     .then((response) => {
       this.setState({
         historyData: response
       })
+      this.filterHistoricalData(response).bind(this)
     })
     .catch(err => console.log(err));
   }
@@ -72,10 +73,10 @@ getHistory () {
   }
 
   getPrediction(){
-      fetch(`http://localhost:4000/prediction`, {
-      headers: {
+    fetch(`http://localhost:4000/prediction`, {
+      headers: new Headers({
         'Content-Type': 'application/json'
-      },
+      }),
       method: 'POST',
       body: JSON.stringify({
         origLat: this.state.origLat,
@@ -92,7 +93,7 @@ getHistory () {
       this.setState({
         predictResponse: response
       })
-      .then(filterHistoricalData(response))
+      this.getPredictionArray().bind(this);
     })
     .catch(err => console.log(err));
   }
@@ -122,24 +123,40 @@ getHistory () {
   }
 
   filterHistoricalData(data) {
-    data.filter(entry)
-    if  (entry.month = this.state.month && entry.day = this.state.day){
-      newObj = {
-        x: entry.hour,
-        y: entry.price
+    this.setState({
+      dataToShow: [],
+    });
+    let values = data.filter((entry) => {
+      if (entry.month == this.state.month && entry.day == this.state.day) {
+        return {x: entry.hour, y: entry.price};
       }
-      dataToShow.push(newObj);
-      }
-    }
+    });
+    const final = [
+      {
+        name: 'Historical Data',
+        values: values,
+      },
+    ];
+    this.setState({
+      dataToShow: final,
+    });
+  }
 
   getPredictionArray(){
     this.setState({
       dataToShow: []
-    })
-    predictResponse.map(item) =>
-    dataToShow.push({
-      x: item.hour,
-      y: item.price
+    });
+    let values = this.state.predictResponse.map((item) => {
+      return {x: item.hour, y: item.price};
+    });
+    const final = [
+      {
+        name: 'Prediction Results',
+        values: values,
+      }
+    ];
+    this.setState({
+      dataToShow: final,
     });
   }
 
