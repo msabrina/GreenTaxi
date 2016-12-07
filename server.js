@@ -13,7 +13,7 @@ const loc = require('./models/location.js');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 
-app.get('/location',
+app.post('/location',
   loc.getOriginLatLong,
   loc.getDestinationLatLong,
   loc.getDistance,

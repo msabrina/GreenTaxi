@@ -45,7 +45,16 @@ getHistory () {
   }
 
   getLocation() {
-    fetch('http://localhost:3000/api/location')
+    fetch('http://localhost:3000/api/location', {
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+      method: 'POST',
+      body: JSON.stringify({
+        originAddress: this.state.origAddress,
+        destinationAddress: this.state.destAddress
+      }),
+    })
     .then(r => r.json())
     .then(data => {
       this.setState({
@@ -114,7 +123,7 @@ getHistory () {
 
   filterHistoricalData(data) {
     data.filter(entry)
-    if { entry.month = this.state.month && entry.day = this.state.day
+    if  (entry.month = this.state.month && entry.day = this.state.day){
       newObj = {
         x: entry.hour,
         y: entry.price
