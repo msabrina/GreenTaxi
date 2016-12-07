@@ -20,27 +20,14 @@ class App extends Component {
       distance: '',
       month: '',
       day: '',
-      dataToShow: [
-        {
-          name: 'Test Series',
-          values: [
-            {x: 1, y: 5},
-            {x: 2, y: 7},
-            {x: 3, y: 12},
-            {x: 4, y: 3},
-            {x: 5, y: 13},
-            {x: 6, y: 8},
-            {x: 7, y: 9},
-            {x: 8, y: 1},
-            {x: 9, y: 2},
-          ]
-        }
-      ],
-      chartTitle: 'Hahahahaha',
-      xAxisLabel: 'number 1',
-      yAxisLabel: 'number 2',
+      dataToShow: [],
+      chartTitle: '',
+      xAxisLabel: 'Hour',
+      yAxisLabel: 'Price',
     }
   }
+
+
 
   componentWillMount(){
     // this.getHistory();
@@ -95,7 +82,8 @@ getHistory () {
     .then((response) => {
       this.setState({
         predictResponse: response
-      });
+      })
+      .then(filterHistoricalData(response))
     })
     .catch(err => console.log(err));
   }
@@ -121,6 +109,28 @@ getHistory () {
   updateDay (e) {
     this.setState({
       day: e.target.value
+    });
+  }
+
+  filterHistoricalData(data) {
+    data.filter(entry)
+    if { entry.month = this.state.month && entry.day = this.state.day
+      newObj = {
+        x: entry.hour,
+        y: entry.price
+      }
+      dataToShow.push(newObj);
+      }
+    }
+
+  getPredictionArray(){
+    this.setState({
+      dataToShow: []
+    })
+    predictResponse.map(item) =>
+    dataToShow.push({
+      x: item.hour,
+      y: item.price
     });
   }
 
