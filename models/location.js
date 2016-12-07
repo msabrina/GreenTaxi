@@ -1,7 +1,7 @@
 let key = "AIzaSyBlF8TNXj_FdB5xrIZBHB9uMk1UGegewrk";
 
 function getOriginLatLong (req, res, next) {
-  const originAddress = encodeURIComponent(req.query.originAddress);
+  const originAddress = encodeURIComponent(req.body.originAddress);
   fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${originAddress}&key=${key}`)
   .then(r => r.json())
   .then((originData) => {
