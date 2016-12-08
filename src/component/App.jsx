@@ -14,7 +14,7 @@ class App extends Component {
       origAddress: '',
       destAddress: '',
       distance: '',
-      month: 1,
+      month: 0,
       day: 1,
       dataToShow: [],
       chartTitle: '',
@@ -126,6 +126,12 @@ class App extends Component {
     });
   }
 
+  updateCalendar (e) {
+    this.setState({
+      calendar: e.target.value
+    });
+  }
+
   filterHistoricalData(data) {
     let values = [];
     data.forEach((entry) => {
@@ -155,6 +161,13 @@ class App extends Component {
     return final;
   }
 
+  doFilter(e) {
+    this.setState({
+      dataToShow: this.filterHistoricalData(this.state.historyData),
+      chartTitle: `Price vs. Time for an Average ${this.state.day} in ${this.state.month}`,
+    });
+  }
+
   render() {
     return (
       <div className={styles["App"]}>
@@ -162,11 +175,13 @@ class App extends Component {
         <div className={styles["side-bar"]}>
           <Filter
             updateMonth={event => this.updateMonth(event)}
+            updateDay={event => this.updateDay(event)}
+            doFilter={this.doFilter.bind(this)}
           />
           <Search
             updateAddress={event => this.updateAddress(event)}
             updateDestination={event => this.updateDestination(event)}
-            updateDay={event => this.updateDay(event)}
+            updateCalendar={event => this.updateCalendar(event)}
             doSearch={this.getLocation.bind(this)}
           />
         </div>
