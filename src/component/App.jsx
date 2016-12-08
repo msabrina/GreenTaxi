@@ -14,8 +14,8 @@ class App extends Component {
       origAddress: '',
       destAddress: '',
       distance: '',
-      month: 0,
-      day: 1,
+      month: 1,
+      day: 0,
       dataToShow: [],
       chartTitle: '',
       xAxisLabel: 'Hour',
@@ -182,7 +182,7 @@ class App extends Component {
             updateAddress={event => this.updateAddress(event)}
             updateDestination={event => this.updateDestination(event)}
             updateCalendar={event => this.updateCalendar(event)}
-            doSearch={this.getLocation.bind(this)}
+            doSearch={this.getPrediction.bind(this)}
           />
         </div>
         <div className={styles["graph-container"]}>
