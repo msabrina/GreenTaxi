@@ -18,8 +18,8 @@ class App extends Component {
       destLat: '',
       destLong: '',
       distance: '',
-      month: '',
-      day: '',
+      month: 1,
+      day: 1,
       dataToShow: [],
       chartTitle: '',
       xAxisLabel: 'Hour',
@@ -29,18 +29,20 @@ class App extends Component {
     }
   }
 
-  componentWillMount(){
-    // this.getHistory();
+  componentDidMount(){
+    this.getHistory();
   }
 
   getHistory () {
     fetch(`http://localhost:4000/history`)
     .then(r => r.json())
     .then((response) => {
+      const filtered = this.filterHistoricalData(response);
       this.setState({
-        historyData: response
-      })
-      this.filterHistoricalData(response).bind(this)
+        historyData: response,
+        dataToShow: filtered,
+        chartTitle: `Price vs. Time for an Average ${this.state.day} in ${this.state.month}`,
+      });
     })
     .catch(err => console.log(err));
   }
@@ -90,10 +92,11 @@ class App extends Component {
     })
     .then(r => r.json())
     .then((response) => {
+      const filtered = this.filterPredictionData(response)
       this.setState({
-        predictResponse: response
-      })
-      this.getPredictionArray().bind(this);
+        predictResponse: response,
+        dataToShow: filtered,
+      });
     })
     .catch(err => console.log(err));
   }
@@ -123,12 +126,10 @@ class App extends Component {
   }
 
   filterHistoricalData(data) {
-    this.setState({
-      dataToShow: [],
-    });
-    let values = data.filter((entry) => {
+    let values = [];
+    data.forEach((entry) => {
       if (entry.month == this.state.month && entry.day == this.state.day) {
-        return {x: entry.hour, y: entry.price};
+        values.push({x: entry.hour, y: entry.price});
       }
     });
     const final = [
@@ -137,16 +138,11 @@ class App extends Component {
         values: values,
       },
     ];
-    this.setState({
-      dataToShow: final,
-    });
+    return final;
   }
 
-  getPredictionArray(){
-    this.setState({
-      dataToShow: []
-    });
-    let values = this.state.predictResponse.map((item) => {
+  filterPredictionData(response){
+    let values = response.map((item) => {
       return {x: item.hour, y: item.price};
     });
     const final = [
@@ -155,9 +151,7 @@ class App extends Component {
         values: values,
       }
     ];
-    this.setState({
-      dataToShow: final,
-    });
+    return final;
   }
 
   render() {

@@ -4,4 +4,4 @@ node_modules/
 
 .eslintrc.js
 
-dist/*
+dist/
