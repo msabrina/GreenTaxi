@@ -12,11 +12,7 @@ class App extends Component {
       historyData: [],
       predictResponse: [],
       origAddress: '',
-      origLat: '',
-      origLong: '',
       destAddress: '',
-      destLat: '',
-      destLong: '',
       distance: '',
       month: 1,
       day: 1,
@@ -61,10 +57,6 @@ class App extends Component {
     .then(r => r.json())
     .then(data => {
       this.setState({
-        origLat: data.origin_lat,
-        origLong: data.origin_long,
-        destLat: data.dest_lat,
-        destLong: data.dest_long,
         distance: data.distance,
         temperature: data.temperature,
         rainfall: data.rainfall,
@@ -81,13 +73,11 @@ class App extends Component {
       }),
       method: 'POST',
       body: JSON.stringify({
-        origLat: this.state.origLat,
-        origLong: this.state.origLong,
-        destLat: this.state.destLat,
-        destLong: this.state.destLong,
         distance: this.state.distance,
         month: this.state.month,
         day: this.state.day,
+        temperature: this.state.temperature,
+        rainfall: this.state.rainfall,
       }),
     })
     .then(r => r.json())
@@ -96,6 +86,7 @@ class App extends Component {
       this.setState({
         predictResponse: response,
         dataToShow: filtered,
+        chartTitle: `Price vs. Time for Your Trip on ${this.state.day} in ${this.state.month}`,
       });
     })
     .catch(err => console.log(err));
@@ -171,6 +162,7 @@ class App extends Component {
         </div>
         <div className={styles["graph-container"]}>
           <Graph
+            height={this.state.height}
             data={this.state.dataToShow}
             chartTitle={this.state.chartTitle}
             xAxisLabel={this.state.xAxisLabel}
