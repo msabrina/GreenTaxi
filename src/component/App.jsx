@@ -29,6 +29,16 @@ class App extends Component {
     this.getHistory();
   }
 
+  getDayString(day) {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return days[day];
+  }
+
+  getMonthString(month) {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return months[month - 1];
+  }
+
   getHistory () {
     fetch(`http://localhost:4000/history`)
     .then(r => r.json())
@@ -37,7 +47,7 @@ class App extends Component {
       this.setState({
         historyData: response,
         dataToShow: filtered,
-        chartTitle: `Price vs. Time for an Average ${this.state.day} in ${this.state.month}`,
+        chartTitle: `Price vs. Time for an Average ${this.getDayString(this.state.day)} in ${this.getMonthString(this.state.month)}`,
       });
     })
     .catch(err => console.log(err));
